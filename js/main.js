@@ -15,8 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
       width: 50,
       height: 50,
     });
+    let degree = 220;
+    player.degrees = -100;
     player.draw();
-    player.drawCornersCoordinates("Green");
+    player.drawCornersCoordinates("red");
   } else {
     // coder for browsers which do not support the canvas api.
   }

@@ -4,17 +4,24 @@ export function Point(x = 0, y = 0) {
   this.y = y;
 }
 Point.prototype.coordString = function () {
-  return `(${this.x}, ${this.y})`;
+  return `(${Math.round(this.x, 2)}, ${Math.round(this.y, 2)})`;
 };
 Point.prototype.drawText = function ({
   context,
   colorStyle: colorStyle = "black",
-  offsetX = 0,
-  offsetY = 0,
-  offset = 0,
+  offsetX: offsetX = 0,
+  offsetY: offsetY = 0,
+  offset: offset = 0,
+  radians: radians = 0,
+  rotationPoint: rotationPoint = new Point(),
 } = {}) {
   context.save();
   context.fillStyle = colorStyle;
+  if (radians !== 0) {
+    context.translate(rotationPoint.x, rotationPoint.y);
+    context.rotate(radians);
+    context.translate(-rotationPoint.x, -rotationPoint.y);
+  }
   context.fillText(
     this.coordString(),
     this.x + offsetX + offset,
