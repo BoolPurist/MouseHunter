@@ -1,3 +1,5 @@
+import { Point } from "./Point.js";
+export { Point };
 // For inheritance.
 export function Shape({
   context: context = null,
@@ -41,12 +43,15 @@ Shape.prototype.draw = function () {
   this.context.restore();
 };
 
+// Draws all coordinates as text of every corner point of a shape
+// on the canvas of the shape.
 Shape.prototype.drawCornersCoordinates = function (colorStyle = "black") {
-  this._corners.forEach((element) => {
+  this._corners.forEach((element, index) => {
     element.drawText({
       context: this.context,
       colorStyle: colorStyle,
       offset: 0,
+      lable: `${index}: `,
       radians: this.radians,
       rotationPoint: this._centerPoint,
     });

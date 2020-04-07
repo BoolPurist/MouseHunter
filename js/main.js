@@ -1,6 +1,5 @@
 import { Point } from "./Point.js";
 import { Player } from "./Player.js";
-import { geometryMath2D } from "./geometryMath2D.js";
 // import * as GeometryMath2D from "./geometryMath2D.js";
 document.addEventListener("DOMContentLoaded", function () {
   "use strict";
@@ -16,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
       height: 50,
     });
     let degree = 220;
-    player.degrees = -100;
+    player.degrees = 0;
     player.draw();
-    player.drawCornersCoordinates("red");
+    player.drawCornersCoordinates("Green");
   } else {
     // coder for browsers which do not support the canvas api.
   }
