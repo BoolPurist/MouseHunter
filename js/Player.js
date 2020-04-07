@@ -1,6 +1,5 @@
-import * as inheritance from "./Shape.js";
-let Point = inheritance.Point;
-let Shape = inheritance.Shape;
+import { Shape, Point } from "./Shape.js";
+
 ("use strict");
 // Player shape consists of 5 corner points used for drawing the shape.
 // Width and Height determines size of the shape and the rectangle hitbox.

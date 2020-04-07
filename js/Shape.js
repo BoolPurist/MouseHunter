@@ -3,7 +3,7 @@ export { Point };
 // For inheritance.
 export function Shape({
   context: context = null,
-  centerPoint: centerPoint,
+  centerPoint: centerPoint = null,
   colorStyle: colorStyle = "white",
 } = {}) {
   this.context = context;
@@ -57,3 +57,5 @@ Shape.prototype.drawCornersCoordinates = function (colorStyle = "black") {
     });
   });
 };
+
+Shape.prototype.move = function (x = 0, y = 0) {};
