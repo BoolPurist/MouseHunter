@@ -8,8 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
-    let player = new Player(new Point(50, 50), 50, 50, "red");
-    player.draw(ctx);
+    let player = new Player({
+      context: ctx,
+      colorStyle: "black",
+      centerPoint: new Point(50, 50),
+      width: 50,
+      height: 50,
+    });
+    player.draw();
+    player.drawCornersCoordinates("Green");
   } else {
     // coder for browsers which do not support the canvas api.
   }
