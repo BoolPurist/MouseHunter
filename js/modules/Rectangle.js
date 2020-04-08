@@ -20,6 +20,10 @@ export function Rectangle({
     this._centerPoint.x - this._width / 2,
     this._centerPoint.y - this._height / 2
   );
+  this._cornerRightBottom = new Point(
+    this._centerPoint.x + this._width / 2,
+    this._centerPoint.y + this._height / 2
+  );
 }
 
 Rectangle.prototype = Object.create(Shape.prototype);
@@ -32,12 +36,7 @@ Object.defineProperty(Rectangle.prototype, "constructor", {
 
 Rectangle.prototype.draw = function () {
   this.context.save();
-  if (this.radians !== 0) {
-    this.context.translate(this._centerPoint.x, this._centerPoint.y);
-    this.context.rotate(this.radians);
-    this.context.translate(-this._centerPoint.x, -this._centerPoint.y);
-  }
-  this.context.fillStyle = this.colorStyle;
+  this._drawSetup();
   this.context.fillRect(
     this._cornerLeftTop.x,
     this._cornerLeftTop.y,

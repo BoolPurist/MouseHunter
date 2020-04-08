@@ -1,7 +1,7 @@
 import { Setting } from "./Setting.js";
-import { Point } from "./Point.js";
-import { Player } from "./Player.js";
-import { Rectangle } from "./Rectangle.js";
+import { Point } from "./modules/Point.js";
+import { Player } from "./modules/Player.js";
+import { Rectangle } from "./modules/Rectangle.js";
 
 // import * as GeometryMath2D from "./geometryMath2D.js";
 document.addEventListener("DOMContentLoaded", function () {
@@ -21,31 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
       width: 50,
       height: 50,
     });
-    let player2 = new Player({
-      context: ctx,
-      colorStyle: "blue",
-      centerPoint: new Point(200, 200),
-      width: 50,
-      height: 50,
-    });
 
-    let rect = new Rectangle({
-      context: ctx,
-      centerPoint: new Point(100, 100),
-      colorStyle: "Green",
-      size: 50,
-    });
     gameLoop();
     function gameLoop() {
       // console.log(currentKeyMove);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       keysPressed.clear();
-      rect.degrees++;
-      rect.degrees %= 360;
-      rect.draw();
-
-      player2.draw();
-
+      player.draw();
       requestAnimationFrame(gameLoop);
     }
   } else {

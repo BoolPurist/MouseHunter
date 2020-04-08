@@ -10,6 +10,7 @@ export function Shape({
   this._centerPoint = centerPoint;
   this._corners = [];
   this.radians = 0;
+  this.opacity = 1;
   this.colorStyle = colorStyle;
 }
 
@@ -24,15 +25,20 @@ Shape.prototype = {
   },
 };
 
-// Draws lines according to the order of the points in the corner list.
-Shape.prototype.draw = function () {
-  this.context.save();
+Shape.prototype._drawSetup = function () {
   if (this.radians !== 0) {
     this.context.translate(this._centerPoint.x, this._centerPoint.y);
     this.context.rotate(this.radians);
     this.context.translate(-this._centerPoint.x, -this._centerPoint.y);
   }
+  this.context.globalAlpha = this.opacity;
   this.context.fillStyle = this.colorStyle;
+};
+
+// Draws lines according to the order of the points in the corner list.
+Shape.prototype.draw = function () {
+  this.context.save();
+  this._drawSetup();
   this.context.beginPath();
   this.context.moveTo(this._corners[0].x, this._corners[0].y);
   for (let index = 1; index < this._corners.length; index++) {
