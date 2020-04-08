@@ -45,3 +45,33 @@ Rectangle.prototype.draw = function () {
   );
   this.context.restore();
 };
+
+Rectangle.prototype.collisionOutStopCanvas = function (point) {
+  return this.collisionOutStop.call(this, point, this.context.hitbox);
+};
+
+Rectangle.prototype.collisionOutStop = function (point, otherHitbox) {
+  let toMove = new Point(point.x, point.y);
+
+  if (this._cornerLeftTop.x + toMove.x < otherHitbox._cornerLeftTop.x) {
+    toMove.x = otherHitbox._cornerLeftTop.x - this._cornerLeftTop.x;
+  }
+  if (this._cornerRightBottom.x + toMove.x > otherHitbox._cornerRightBottom.x) {
+    toMove.x = otherHitbox._cornerRightBottom.x - this._cornerRightBottom.x;
+  }
+  if (this._cornerLeftTop.y + toMove.y < otherHitbox._cornerLeftTop.y) {
+    toMove.y = otherHitbox._cornerLeftTop.y - this._cornerLeftTop.y;
+  }
+  if (this._cornerRightBottom.y + toMove.y > otherHitbox._cornerRightBottom.y) {
+    toMove.y = otherHitbox._cornerRightBottom.y - this._cornerRightBottom.y;
+  }
+
+  return toMove;
+};
+
+Rectangle.prototype.move = function (point) {
+  this._cornerLeftTop.x += point.x;
+  this._cornerLeftTop.y += point.y;
+  this._cornerRightBottom.x += point.x;
+  this._cornerRightBottom.y += point.y;
+};

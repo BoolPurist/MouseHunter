@@ -13,11 +13,19 @@ document.addEventListener("DOMContentLoaded", function () {
   if (canvas.getContext) {
     // Setup.
     let ctx = canvas.getContext("2d");
+    let canvasHalfWidth = ctx.canvas.width / 2;
+    let canvasHalfHeight = ctx.canvas.height / 2;
+    ctx.hitbox = new Rectangle({
+      context: ctx,
+      centerPoint: new Point(canvasHalfWidth, canvasHalfHeight),
+      width: ctx.canvas.width,
+      height: ctx.canvas.height,
+    });
 
     let player = new Player({
       context: ctx,
       colorStyle: "Red",
-      centerPoint: new Point(50, 50),
+      centerPoint: new Point(150, 150),
       width: 50,
       height: 50,
     });
@@ -26,8 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function gameLoop() {
       // console.log(currentKeyMove);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.hitbox.colorStyle = "black";
+      ctx.hitbox.opacity = 0.5;
+      ctx.hitbox.draw();
       keysPressed.clear();
-      player.draw();
+      player.move(-5, -5);
       requestAnimationFrame(gameLoop);
     }
   } else {

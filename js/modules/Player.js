@@ -1,5 +1,5 @@
 import { Shape, Point } from "./Shape.js";
-import { HitboxRectangle } from "./HitboxRectangle.js";
+import { Rectangle } from "./Rectangle.js";
 
 ("use strict");
 // Player shape consists of 5 corner points used for drawing the shape.
@@ -33,7 +33,7 @@ export function Player({
     this._centerPoint.y - yHalf
   );
 
-  this.hitbox = new HitboxRectangle({
+  this.hitbox = new Rectangle({
     context: this.context,
     centerPoint: this._centerPoint,
     colorStyle: this.colorStyle,
@@ -51,14 +51,13 @@ Object.defineProperty(Player.prototype, "constructor", {
 });
 
 Player.prototype.move = function (x = 0, y = 0) {
-  let movement = this.hitbox.keepInCanvas(new Point(x, y));
+  let movement = this.hitbox.collisionOutStopCanvas(new Point(x, y));
   this._centerPoint.x += movement.x;
   this._centerPoint.y += movement.y;
   this._corners.forEach((cornerPoint) => {
     cornerPoint.x += movement.x;
     cornerPoint.y += movement.y;
   });
-  this.hitbox.update(movement);
+  this.hitbox.move(movement);
   this.draw();
-  // console.table(this._corners);
 };
