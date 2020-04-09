@@ -62,5 +62,6 @@ Player.prototype.move = function (nextMove) {
     cornerPoint.x += movement.x;
     cornerPoint.y += movement.y;
   });
+
   this.hitbox.move(movement);
 };
