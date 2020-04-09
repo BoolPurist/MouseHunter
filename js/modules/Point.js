@@ -44,6 +44,12 @@ Point.distancePoints = function (point1, point2) {
   return Math.sqrt(dx * dx + dy * dy);
 };
 
+Point.polarToPoint = function (length, radians) {
+  let x = Math.cos(radians) * length;
+  let y = Math.sin(radians) * length;
+  return new Point(x, y);
+};
+
 // Draws a line between 2 points on a canvas.
 Point.drawLine = function (context, point1, point2) {
   context.beginPath();

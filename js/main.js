@@ -6,6 +6,7 @@ import { Rectangle } from "./modules/Rectangle.js";
 // import * as GeometryMath2D from "./geometryMath2D.js";
 document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("keydown", keyListener, false);
+  document.body.addEventListener("keypress", keyListener, false);
   let keysPressed = new Map();
   ("use strict");
   let canvas = document.querySelector("#canvas");
@@ -30,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
       height: 50,
       accelaration: Setting.playerAccelaration,
     });
-
     gameLoop();
     function gameLoop() {
       // Setup of frame

@@ -3,6 +3,7 @@ export let Setting = {
   keyRight: "d",
   keyUp: "w",
   keyDown: "s",
+  keyFire: "",
   keyNorthEast: "e",
   keyEastSouth: "c",
   keySouthWest: "z",

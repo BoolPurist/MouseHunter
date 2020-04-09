@@ -8,22 +8,32 @@ export function Shape({
 } = {}) {
   this.context = context;
   this.colorStyle = colorStyle;
-  this.radians = 0;
+  this._radians = 0;
   this.opacity = 1;
   this._centerPoint = centerPoint;
   this._corners = [];
 }
 
+Object.defineProperty(Shape.prototype, "radians", {
+  get: function () {
+    return this._radians;
+  },
+  set: function (value) {
+    this._radians = value % (2 * Math.PI);
+  },
+});
+
 // For easy converting in from degree into radians and back.
 // For rotation operation in the canvas, radians are used as angle.
-Shape.prototype = {
-  get degrees() {
-    return this.radians / (Math.PI / 180);
+Object.defineProperty(Shape.prototype, "degrees", {
+  get: function () {
+    return this._radians / (Math.PI / 180);
   },
-  set degrees(value) {
-    this.radians = (Math.PI / 180) * value;
+  set: function (value) {
+    value %= 360;
+    this._radians = (Math.PI / 180) * value;
   },
-};
+});
 
 // Draws lines according to the order of the points in the corner list.
 Shape.prototype.draw = function () {
