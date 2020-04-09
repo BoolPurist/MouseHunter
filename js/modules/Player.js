@@ -18,6 +18,15 @@ export function Player({
   });
   this._width = _width;
   this._height = _height;
+
+  this.hitbox = new Rectangle({
+    context: this.context,
+    centerPoint: this._centerPoint,
+    colorStyle: this.colorStyle,
+    width: _width,
+    height: _height,
+  });
+
   // position of the corners points depend on the centerPoint.
   let yHalf = this._height * 0.5;
   let yHalfDown = this._centerPoint.y + yHalf;
@@ -32,14 +41,6 @@ export function Player({
     this._centerPoint.x,
     this._centerPoint.y - yHalf
   );
-
-  this.hitbox = new Rectangle({
-    context: this.context,
-    centerPoint: this._centerPoint,
-    colorStyle: this.colorStyle,
-    width: _width,
-    height: _height,
-  });
 }
 // Inheritance.
 Player.prototype = Object.create(Shape.prototype);

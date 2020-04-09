@@ -7,11 +7,11 @@ export function Shape({
   colorStyle: colorStyle = "white",
 } = {}) {
   this.context = context;
-  this._centerPoint = centerPoint;
-  this._corners = [];
+  this.colorStyle = colorStyle;
   this.radians = 0;
   this.opacity = 1;
-  this.colorStyle = colorStyle;
+  this._centerPoint = centerPoint;
+  this._corners = [];
 }
 
 // For easy converting in from degree into radians and back.
@@ -23,16 +23,6 @@ Shape.prototype = {
   set degrees(value) {
     this.radians = (Math.PI / 180) * value;
   },
-};
-
-Shape.prototype._drawSetup = function () {
-  if (this.radians !== 0) {
-    this.context.translate(this._centerPoint.x, this._centerPoint.y);
-    this.context.rotate(this.radians);
-    this.context.translate(-this._centerPoint.x, -this._centerPoint.y);
-  }
-  this.context.globalAlpha = this.opacity;
-  this.context.fillStyle = this.colorStyle;
 };
 
 // Draws lines according to the order of the points in the corner list.
@@ -49,6 +39,16 @@ Shape.prototype.draw = function () {
   this.context.restore();
 };
 
+Shape.prototype._drawSetup = function () {
+  if (this.radians !== 0) {
+    this.context.translate(this._centerPoint.x, this._centerPoint.y);
+    this.context.rotate(this.radians);
+    this.context.translate(-this._centerPoint.x, -this._centerPoint.y);
+  }
+  this.context.globalAlpha = this.opacity;
+  this.context.fillStyle = this.colorStyle;
+};
+
 // Draws all coordinates as text of every corner point of a shape
 // on the canvas of the shape.
 Shape.prototype.drawCornersCoordinates = function (colorStyle = "black") {
@@ -63,5 +63,3 @@ Shape.prototype.drawCornersCoordinates = function (colorStyle = "black") {
     });
   });
 };
-
-Shape.prototype.move = function (x = 0, y = 0) {};
