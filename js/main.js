@@ -5,7 +5,7 @@ import { Rectangle } from "./modules/Rectangle.js";
 
 // import * as GeometryMath2D from "./geometryMath2D.js";
 document.addEventListener("DOMContentLoaded", function () {
-  document.body.addEventListener("keypress", keyListener, false);
+  document.body.addEventListener("keydown", keyListener, false);
   let keysPressed = new Map();
   ("use strict");
   let canvas = document.querySelector("#canvas");
@@ -28,17 +28,20 @@ document.addEventListener("DOMContentLoaded", function () {
       centerPoint: new Point(150, 150),
       width: 50,
       height: 50,
+      accelaration: Setting.playerAccelaration,
     });
 
     gameLoop();
     function gameLoop() {
-      // console.log(currentKeyMove);
+      // Setup of frame
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.hitbox.colorStyle = "black";
-      ctx.hitbox.opacity = 0.5;
-      ctx.hitbox.draw();
+      // Start of Frame
+      let moveX = keysPressed.has("moveX") ? keysPressed.get("moveX") : 0;
+      let moveY = keysPressed.has("moveY") ? keysPressed.get("moveY") : 0;
+      player.move(new Point(moveX, moveY));
+      player.draw();
+      // End of frame
       keysPressed.clear();
-      player.move(-5, -5);
       requestAnimationFrame(gameLoop);
     }
   } else {
@@ -47,13 +50,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function keyListener(event) {
     let keyPresssed = event.key;
-    if (
-      keyPresssed === Setting.keyLeft ||
-      keyPresssed === Setting.keyRight ||
-      keyPresssed === Setting.keyDown ||
-      keyPresssed === Setting.keyUp
-    ) {
-      keysPressed.set("keyMove", keyPresssed);
+    if (keyPresssed === Setting.keyLeft) {
+      keysPressed.set("moveX", -1);
+    }
+    if (keyPresssed === Setting.keyRight) {
+      keysPressed.set("moveX", 1);
+    }
+    if (keyPresssed === Setting.keyUp) {
+      keysPressed.set("moveY", -1);
+    }
+    if (keyPresssed === Setting.keyDown) {
+      keysPressed.set("moveY", 1);
     }
   }
 
