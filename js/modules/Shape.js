@@ -35,6 +35,10 @@ Object.defineProperty(Shape.prototype, "degrees", {
   },
 });
 
+Shape.prototype.adjustAngleToPoint = function (point) {
+  this.radians = Point.radiansBetween(this._centerPoint, point) - 0.5 * Math.PI;
+};
+
 // Draws lines according to the order of the points in the corner list.
 Shape.prototype.draw = function () {
   this.context.save();
@@ -61,7 +65,7 @@ Shape.prototype._drawSetup = function () {
 
 // Draws all coordinates as text of every corner point of a shape
 // on the canvas of the shape.
-Shape.prototype.drawCornersCoordinates = function (colorStyle = "black") {
+Shape.prototype.drawCornersCoordinates = function () {
   this._corners.forEach((element, index) => {
     element.drawText({
       context: this.context,

@@ -2,6 +2,7 @@ import { Keys, keysPressed, physics } from "./Setting.js";
 import { Point } from "./modules/Point.js";
 import { Player } from "./modules/Player.js";
 import { Rectangle } from "./modules/Rectangle.js";
+import { Circle } from "./modules/Circle.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Listening for the player input.
@@ -9,9 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("keyup", keyListenerUp, false);
 
   ("use strict");
-  let keysPressedDown = new Map();
   let canvas = document.querySelector("#canvas");
-
+  let mousePosition = {
+    X: 0,
+    Y: 0,
+  };
+  canvas.addEventListener("mousemove", mousePositionListener, false);
   // Setting up the canvas with its hitbox.
   if (canvas.getContext) {
     // Setup.
@@ -34,6 +38,13 @@ document.addEventListener("DOMContentLoaded", function () {
       height: 50,
       accelaration: physics.playerAccelaration,
     });
+
+    let circle = new Circle({
+      context: ctx,
+      centerPoint: new Point(100, 100),
+      colorStyle: "Green",
+      radius: 20,
+    });
     gameLoop();
     function gameLoop() {
       // Setup of frame
@@ -42,9 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       let moveX = keysPressed.get("keyLeft") + keysPressed.get("keyRight");
       let moveY = keysPressed.get("keyUp") + keysPressed.get("keyDown");
-
+      player.adjustAngleToPoint(new Point(mousePosition.X, mousePosition.Y));
       player.move(new Point(moveX, moveY));
       player.draw();
+      circle.draw();
       // End of frame
       requestAnimationFrame(gameLoop);
     }
@@ -77,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Listening to all keys released by player.
-  function keyListenerUp() {
+  function keyListenerUp(event) {
     let keyPressed = event.key.toLowerCase();
     switch (keyPressed) {
       case Keys.keyLeft:
@@ -98,5 +110,10 @@ document.addEventListener("DOMContentLoaded", function () {
       default:
         break;
     }
+  }
+
+  function mousePositionListener(event) {
+    mousePosition.X = event.clientX;
+    mousePosition.Y = event.clientY;
   }
 });

@@ -10,7 +10,7 @@ export function Player({
   width: _width,
   height: _height,
   colorStyle: colorStyle,
-  accelaration: accelaration = 1,
+  velocity: velocity = 3,
 } = {}) {
   Shape.call(this, {
     context: context,
@@ -19,7 +19,7 @@ export function Player({
   });
   this._width = _width;
   this._height = _height;
-  this.accelaration = accelaration;
+  this.velocity = velocity;
   this.hitbox = new Rectangle({
     context: this.context,
     centerPoint: this._centerPoint,
@@ -53,8 +53,8 @@ Object.defineProperty(Player.prototype, "constructor", {
 });
 
 Player.prototype.move = function (nextMove) {
-  nextMove.x *= this.accelaration;
-  nextMove.y *= this.accelaration;
+  nextMove.x *= this.velocity;
+  nextMove.y *= this.velocity;
   let movement = this.hitbox.collisionOutStopCanvas(nextMove);
   this._centerPoint.x += movement.x;
   this._centerPoint.y += movement.y;

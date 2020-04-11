@@ -44,6 +44,13 @@ Point.distancePoints = function (point1, point2) {
   return Math.sqrt(dx * dx + dy * dy);
 };
 
+Point.radiansBetween = function (point1, point2) {
+  let diffX = point1.x - point2.x;
+  let diffY = point1.y - point2.y;
+  let angle = Math.atan2(diffY, diffX);
+  return angle;
+};
+
 Point.polarToPoint = function (length, radians) {
   let x = Math.cos(radians) * length;
   let y = Math.sin(radians) * length;
