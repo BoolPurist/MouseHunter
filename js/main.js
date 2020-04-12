@@ -47,6 +47,18 @@ document.addEventListener("DOMContentLoaded", function () {
       bulletSize: Setting.player.bulletSize,
     });
 
+    player.testVar = [];
+    for (let i = 0; i < 10; i++) {
+      player.testVar.push(
+        new Rectangle({
+          context: ctx,
+          colorStyle: "Green",
+          centerPoint: new Point(100 + i * 50, 100 + i * 50),
+          width: 50,
+          height: 50,
+        })
+      );
+    }
     gameLoop();
     function gameLoop() {
       // Setup of frame
@@ -59,6 +71,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (keysPressed.get("keyFire")) {
         player.fire();
       }
+      player.testVar.forEach((element) => {
+        element.draw();
+      });
       player.move(new Point(moveX, moveY));
       player.draw();
       // End of frame

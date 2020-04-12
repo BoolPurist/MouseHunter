@@ -42,6 +42,10 @@ Point.prototype.additionWith = function (point) {
   this.y += point.y;
 };
 
+Point.Addition = function (point1, point2) {
+  return new Point(point1.x + point2.x, point1.y + point2.y);
+};
+
 // Returns the Length of the line between the two points as param 1 & 2.
 Point.distancePoints = function (point1, point2) {
   let dx = point1.x - point2.y;

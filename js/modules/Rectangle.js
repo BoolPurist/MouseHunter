@@ -12,13 +12,23 @@ export function Rectangle({
   this._width = width + size;
   this._height = height + size;
 
+  let halfWidth = this._width / 2;
+  let halfHeight = this._height / 2;
   this._cornerLeftTop = new Point(
-    this._centerPoint.x - this._width / 2,
-    this._centerPoint.y - this._height / 2
+    this._centerPoint.x - halfWidth,
+    this._centerPoint.y - halfHeight
+  );
+  this._cornerLeftBottom = new Point(
+    this._centerPoint.x - halfWidth,
+    this._centerPoint.y + halfHeight
+  );
+  this._cornerRightTop = new Point(
+    this._centerPoint.x + halfWidth,
+    this._centerPoint.y - halfHeight
   );
   this._cornerRightBottom = new Point(
-    this._centerPoint.x + this._width / 2,
-    this._centerPoint.y + this._height / 2
+    this._centerPoint.x + halfWidth,
+    this._centerPoint.y + halfHeight
   );
 }
 
@@ -80,6 +90,25 @@ Rectangle.prototype.collisionOutStop = function (point, otherHitbox) {
   }
 
   return toMove;
+};
+
+Rectangle.prototype.collidesWithIn = function (point, otherHitbox) {
+  // return this.containsPoint(Point.Addition(otherHitbox._cornerLeftTop, point));
+  return (
+    this.containsPoint(Point.Addition(otherHitbox._cornerLeftTop, point)) ||
+    this.containsPoint(Point.Addition(otherHitbox._cornerLeftBottom, point)) ||
+    this.containsPoint(Point.Addition(otherHitbox._cornerRightTop, point)) ||
+    this.containsPoint(Point.Addition(otherHitbox._cornerRightBottom, point))
+  );
+};
+
+Rectangle.prototype.containsPoint = function (point) {
+  return (
+    this._cornerLeftTop.x <= point.x &&
+    this._cornerLeftTop.y <= point.y &&
+    this._cornerRightBottom.x >= point.x &&
+    this._cornerRightBottom.y >= point.y
+  );
 };
 
 Rectangle.prototype.move = function (point) {

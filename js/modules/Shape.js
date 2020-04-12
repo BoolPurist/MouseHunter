@@ -74,7 +74,9 @@ Shape.prototype._drawSetup = function () {
 
 // Draws all coordinates as text of every corner point of a shape
 // on the canvas of the shape.
-Shape.prototype.drawCornersCoordinates = function () {
+Shape.prototype.drawCornersCoordinates = function (
+  colorStyle = this.colorStyle
+) {
   this._corners.forEach((element, index) => {
     element.drawText({
       context: this.context,
