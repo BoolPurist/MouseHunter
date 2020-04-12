@@ -37,6 +37,11 @@ Point.prototype.drawText = function ({
   context.restore();
 };
 
+Point.prototype.additionWith = function (point) {
+  this.x += point.x;
+  this.y += point.y;
+};
+
 // Returns the Length of the line between the two points as param 1 & 2.
 Point.distancePoints = function (point1, point2) {
   let dx = point1.x - point2.y;

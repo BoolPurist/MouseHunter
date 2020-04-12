@@ -1,4 +1,4 @@
-import { Keys, keysPressed, physics } from "./Setting.js";
+import { Setting } from "./Setting.js";
 import { Point } from "./modules/Point.js";
 import { Player } from "./modules/Player.js";
 import { Rectangle } from "./modules/Rectangle.js";
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listening for the player input.
   document.body.addEventListener("keydown", keyListenerDown, false);
   document.body.addEventListener("keyup", keyListenerUp, false);
-
+  let keysPressed = Setting.keysPressed;
   ("use strict");
   let canvas = document.querySelector("#canvas");
   let mousePosition = {
@@ -36,27 +36,27 @@ document.addEventListener("DOMContentLoaded", function () {
       centerPoint: new Point(150, 150),
       width: 50,
       height: 50,
-      accelaration: physics.playerAccelaration,
+      velocity: Setting.player.velocity,
+      fireRate: Setting.player.fireRate,
+      bulletSpeed: Setting.player.bulletSpeed,
+      bulletColor: Setting.player.bulletColor,
+      bulletSize: Setting.player.bulletSize,
     });
 
-    let circle = new Circle({
-      context: ctx,
-      centerPoint: new Point(100, 100),
-      colorStyle: "Green",
-      radius: 20,
-    });
+    let customEvent = new CustomEvent("test");
     gameLoop();
     function gameLoop() {
       // Setup of frame
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       // Start of Frame
-
       let moveX = keysPressed.get("keyLeft") + keysPressed.get("keyRight");
       let moveY = keysPressed.get("keyUp") + keysPressed.get("keyDown");
       player.adjustAngleToPoint(new Point(mousePosition.X, mousePosition.Y));
+      if (keysPressed.get("keyFire")) {
+        player.fire();
+      }
       player.move(new Point(moveX, moveY));
       player.draw();
-      circle.draw();
       // End of frame
       requestAnimationFrame(gameLoop);
     }
@@ -68,19 +68,19 @@ document.addEventListener("DOMContentLoaded", function () {
   function keyListenerDown(event) {
     let keyPressed = event.key.toLowerCase();
     switch (keyPressed) {
-      case Keys.keyLeft:
+      case Setting.keys.keyLeft:
         keysPressed.set("keyLeft", -1);
         break;
-      case Keys.keyRight:
+      case Setting.keys.keyRight:
         keysPressed.set("keyRight", 1);
         break;
-      case Keys.keyUp:
+      case Setting.keys.keyUp:
         keysPressed.set("keyUp", -1);
         break;
-      case Keys.keyDown:
+      case Setting.keys.keyDown:
         keysPressed.set("keyDown", 1);
         break;
-      case Keys.keyFire:
+      case Setting.keys.keyFire:
         keysPressed.set("keyFire", true);
         break;
       default:
@@ -92,19 +92,19 @@ document.addEventListener("DOMContentLoaded", function () {
   function keyListenerUp(event) {
     let keyPressed = event.key.toLowerCase();
     switch (keyPressed) {
-      case Keys.keyLeft:
+      case Setting.keys.keyLeft:
         keysPressed.set("keyLeft", 0);
         break;
-      case Keys.keyRight:
+      case Setting.keys.keyRight:
         keysPressed.set("keyRight", 0);
         break;
-      case Keys.keyUp:
+      case Setting.keys.keyUp:
         keysPressed.set("keyUp", 0);
         break;
-      case Keys.keyDown:
+      case Setting.keys.keyDown:
         keysPressed.set("keyDown", 0);
         break;
-      case Keys.keyFire:
+      case Setting.keys.keyFire:
         keysPressed.set("keyFire", false);
         break;
       default:

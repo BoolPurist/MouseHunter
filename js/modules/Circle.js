@@ -1,19 +1,24 @@
 import { Shape } from "./Shape.js";
+import { Rectangle } from "./Rectangle.js";
 
 export function Circle({
   context: context,
   centerPoint: centerPoint,
   colorStyle: colorStyle,
   radius: radius = 2,
+  velocity: velocity,
 }) {
-  Shape.call(this, {
+  Shape.call(this, arguments[0]);
+
+  this.radius = radius;
+  this.hitbox = new Rectangle({
     context: context,
     centerPoint: centerPoint,
     colorStyle: colorStyle,
-    radius: 10,
+    size: radius * 2,
   });
-
-  this.radius = radius;
+  this.hitbox.opacity = 0.5;
+  this.velocity = velocity;
 }
 
 Circle.prototype = Object.create(Shape.prototype);
@@ -43,4 +48,13 @@ Circle.prototype.draw = function () {
   );
   this.context.fill();
   this.context.restore();
+};
+
+Circle.prototype.move = function (nextMove) {
+  nextMove.x *= this.velocity;
+  nextMove.y *= this.velocity;
+  let movement = this.hitbox.collisionOutStopCanvas(nextMove);
+  this._centerPoint.x += movement.x;
+  this._centerPoint.y += movement.y;
+  this.hitbox.move(movement);
 };

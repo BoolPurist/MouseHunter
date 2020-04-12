@@ -7,11 +7,7 @@ export function Rectangle({
   height: height = 0,
   size: size = 0,
 }) {
-  Shape.call(this, {
-    context: context,
-    centerPoint: centerPoint,
-    colorStyle: colorStyle,
-  });
+  Shape.call(this, arguments[0]);
 
   this._width = width + size;
   this._height = height + size;
@@ -46,10 +42,27 @@ Rectangle.prototype.draw = function () {
   this.context.restore();
 };
 
+// Checks for collision with assigned canvas
+Rectangle.prototype.collidesWithOutCanvas = function (point) {
+  return this.collidesWithOut.call(this, point, this.context.hitbox);
+};
+
+// Checks for collision with another hitbox.
+Rectangle.prototype.collidesWithOut = function (toMove, otherHitbox) {
+  return (
+    this._cornerLeftTop.x + toMove.x < otherHitbox._cornerLeftTop.x ||
+    this._cornerRightBottom.x + toMove.x > otherHitbox._cornerRightBottom.x ||
+    this._cornerLeftTop.y + toMove.y < otherHitbox._cornerLeftTop.y ||
+    this._cornerRightBottom.y + toMove.y > otherHitbox._cornerRightBottom.y
+  );
+};
+
+// Checks for collision with assigned canvas keeps instance inside it.
 Rectangle.prototype.collisionOutStopCanvas = function (point) {
   return this.collisionOutStop.call(this, point, this.context.hitbox);
 };
 
+// Checks for collision with another hitbox and keeps instance inside it.
 Rectangle.prototype.collisionOutStop = function (point, otherHitbox) {
   let toMove = new Point(point.x, point.y);
 

@@ -8,8 +8,8 @@ export function Shape({
 } = {}) {
   this.context = context;
   this.colorStyle = colorStyle;
-  this._radians = 0;
   this.opacity = 1;
+  this._radians = 0;
   this._centerPoint = centerPoint;
   this._corners = [];
 }
@@ -34,10 +34,6 @@ Object.defineProperty(Shape.prototype, "degrees", {
     this._radians = (Math.PI / 180) * value;
   },
 });
-
-Shape.prototype.adjustAngleToPoint = function (point) {
-  this.radians = Point.radiansBetween(this._centerPoint, point) - 0.5 * Math.PI;
-};
 
 // Draws lines according to the order of the points in the corner list.
 Shape.prototype.draw = function () {
