@@ -27,6 +27,7 @@ Object.defineProperty(Bullet.prototype, "constructor", {
 // It destories itself when colliding with certain objects.
 Bullet.prototype.turn = function () {
   if (this.hitbox.collidesWithOutCanvas(this._movement)) {
+    console.log("Out");
     return false;
   } else {
     this.move(this._movement);

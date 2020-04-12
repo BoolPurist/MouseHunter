@@ -6,6 +6,7 @@ import { Circle } from "./modules/Circle.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Listening for the player input.
+
   document.body.addEventListener("keydown", keyListenerDown, false);
   document.body.addEventListener("keyup", keyListenerUp, false);
   let keysPressed = Setting.keysPressed;
@@ -16,19 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
     Y: 0,
   };
   canvas.addEventListener("mousemove", mousePositionListener, false);
+
+  let ctx = canvas.getContext("2d");
+  let canvasHalfWidth = ctx.canvas.width / 2;
+  let canvasHalfHeight = ctx.canvas.height / 2;
+  // Something is outside the canvas when it is outside its hitbox.
+  ctx.hitbox = new Rectangle({
+    context: ctx,
+    centerPoint: new Point(canvasHalfWidth, canvasHalfHeight),
+    width: ctx.canvas.width,
+    height: ctx.canvas.height,
+  });
+  window.addEventListener("resize", adjustCanvas, false);
+  resizeCanvas();
   // Setting up the canvas with its hitbox.
   if (canvas.getContext) {
     // Setup.
-    let ctx = canvas.getContext("2d");
-    let canvasHalfWidth = ctx.canvas.width / 2;
-    let canvasHalfHeight = ctx.canvas.height / 2;
-    // Something is outside the canvas when it is outside its hitbox.
-    ctx.hitbox = new Rectangle({
-      context: ctx,
-      centerPoint: new Point(canvasHalfWidth, canvasHalfHeight),
-      width: ctx.canvas.width,
-      height: ctx.canvas.height,
-    });
 
     let player = new Player({
       context: ctx,
@@ -43,11 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
       bulletSize: Setting.player.bulletSize,
     });
 
-    let customEvent = new CustomEvent("test");
     gameLoop();
     function gameLoop() {
       // Setup of frame
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       // Start of Frame
       let moveX = keysPressed.get("keyLeft") + keysPressed.get("keyRight");
       let moveY = keysPressed.get("keyUp") + keysPressed.get("keyDown");
@@ -115,5 +119,26 @@ document.addEventListener("DOMContentLoaded", function () {
   function mousePositionListener(event) {
     mousePosition.X = event.clientX;
     mousePosition.Y = event.clientY;
+  }
+
+  function adjustCanvas() {
+    resizeCanvas();
+  }
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.width = window.innerWidth;
+    canvas.style.height = window.innerHeight;
+    let canvasHalfWidth = ctx.canvas.width / 2;
+    let canvasHalfHeight = ctx.canvas.height / 2;
+    // Something is outside the canvas when it is outside its hitbox.
+    ctx.hitbox = new Rectangle({
+      context: ctx,
+      centerPoint: new Point(canvasHalfWidth, canvasHalfHeight),
+      width: ctx.canvas.width,
+      height: ctx.canvas.height,
+    });
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 });

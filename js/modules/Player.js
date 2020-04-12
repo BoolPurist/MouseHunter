@@ -21,7 +21,6 @@ export function Player({
   this._fireRate = 1;
   // Using Setter.
   this.fireRate = fireRate;
-  console.log(fireRate);
   this.velocity = velocity;
   this.bulletSpeed = bulletSpeed;
   this.bulletColor = bulletColor;

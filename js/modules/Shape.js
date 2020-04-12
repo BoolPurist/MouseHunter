@@ -4,14 +4,27 @@ export { Point };
 export function Shape({
   context: context = null,
   centerPoint: centerPoint = null,
-  colorStyle: colorStyle = "white",
+  colorStyle: colorStyle = "black",
 } = {}) {
+  if (context === null) {
+    errorMsg("context");
+  } else if (context.constructor.name !== "CanvasRenderingContext2D") {
+    console.error('Parameter is not of type "CanvasRenderingContext2D".');
+    console.trace();
+  } else if (centerPoint === null) {
+    errorMsg("centerPoint");
+  }
   this.context = context;
   this.colorStyle = colorStyle;
   this.opacity = 1;
   this._radians = 0;
   this._centerPoint = centerPoint;
   this._corners = [];
+
+  function errorMsg(parameter) {
+    console.log(`Mandatory parameter "${parameter}" was not provided.`);
+    console.trace();
+  }
 }
 
 Object.defineProperty(Shape.prototype, "radians", {
